@@ -200,7 +200,7 @@ function load() {
 		return contents;
 	} catch (err) {
 		const result = prompt(
-			"Your save file is corrupt or missing, do you wish to create a new one?",
+			"Your save file is corrupt or missing, do you wish to create a new one? ",
 		);
 		if (resultIsYes(result)) {
 			removeAll();
@@ -251,7 +251,7 @@ function loadIgnore() {
 		return contents;
 	} catch (err) {
 		const result = prompt(
-			"Your ignore file is corrupt or missing, do you wish to create a new one?",
+			"Your ignore file is corrupt or missing, do you wish to create a new one? ",
 		);
 		if (resultIsYes(result)) {
 			remove();
