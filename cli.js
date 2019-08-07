@@ -22,6 +22,8 @@ if (args.length > 2) {
 		);
 	} else if (args[2] == "-e" || args[2] == "--edit") {
 		return open(getIgnorePath());
+	} else if (args[2] == "-v" || args[2] == "--version") {
+		return console.log(`node-lode v${require("./package.json").version}`);
 	}
 }
 
