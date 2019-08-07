@@ -18,7 +18,7 @@ let ignoreList = loadIgnore();
 if (args.length > 2) {
 	if (args[2] == "--help" || args[2] == "-h") {
 		return console.log(
-			`You must supply a source and destination\nnode-lode <src> <dst>\n\nOptions:\n\t-e\tEdit the ignore list`,
+			`You must supply a source and destination\nnode-lode <src> <dst>\n\nOptions:\n\t-e\tEdit the ignore list\n\t-v\tView the current version`,
 		);
 	} else if (args[2] == "-e" || args[2] == "--edit") {
 		return open(getIgnorePath());
