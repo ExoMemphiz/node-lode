@@ -5,6 +5,10 @@
 	"bin": {
 		"node-lode": "./cli.js"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ExoMemphiz/node-lode.git"
+	},
 	"description": "Automatic File Watcher and Copier",
 	"main": "cli.js",
 	"author": "Christopher Poul Rosendorf",
