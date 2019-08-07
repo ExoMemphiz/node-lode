@@ -1,12 +1,13 @@
 {
 	"name": "node-lode",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"preferGlobal": true,
-	"bin": "server.js",
+	"bin": {
+		"node-lode": "./cli.js"
+	},
 	"description": "Automatic File Watcher and Copier",
-	"main": "server.js",
+	"main": "cli.js",
 	"author": "Christopher Poul Rosendorf",
-	"license": "ISC",
 	"dependencies": {
 		"fs-extra": "8.1.0",
 		"open": "6.4.0",
