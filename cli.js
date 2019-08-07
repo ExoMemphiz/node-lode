@@ -13,8 +13,6 @@ const IGNORE_FILE = "node-lode-ignore.txt";
 process.stdout.write("\033c");
 console.log(`\n----- node-lode -----\n`);
 
-let ignoreList = loadIgnore();
-
 if (args.length > 2) {
 	if (args[2] == "--help" || args[2] == "-h") {
 		return console.log(
@@ -26,6 +24,8 @@ if (args.length > 2) {
 		return console.log(`node-lode v${require("./package.json").version}`);
 	}
 }
+
+let ignoreList = loadIgnore();
 
 function init() {
 	const result = prompt("Do you wish to load a previous node-lode? ");
