@@ -16,10 +16,12 @@ console.log(`\n----- node-lode -----\n`);
 if (args.length > 2) {
 	if (args[2] == "--help" || args[2] == "-h") {
 		return console.log(
-			`You must supply a source and destination\nnode-lode <src> <dst>\n\nOptions:\n\t-e\tEdit the ignore list\n\t-v\tView the current version`,
+			`You must supply a source and destination\nnode-lode <src> <dst>\n\nTo load saves don't supply any parameters\nnode-lode\n\nOptions:\n\t-e\tEdit the ignore list\n\t-s\tList the available saves\n\t-v\tView the current version`,
 		);
 	} else if (args[2] == "-e" || args[2] == "--edit") {
 		return open(getIgnorePath());
+	} else if (args[2] == "-s" || args[2] == "--save") {
+		return getLoader();
 	} else if (args[2] == "-v" || args[2] == "--version") {
 		return console.log(`node-lode v${require("./package.json").version}`);
 	}
