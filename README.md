@@ -14,10 +14,16 @@ npm i -g node-lode
 # Usage
 
 node-lode listens for any changes to the files in the given source directory, and will automatically overwrite the destination files when a change is detected.  
-If you wish to use it you can either load previous watched folders, or use the command-line arguments `<src> <dst>`.
+If you wish to use it you can use the command-line arguments `<src> <dst>`.
 
 ```bash
 node-lode <src> <dst>
+```
+
+Or load previous watched folders, without supplying any arguments
+
+```bash
+node-lode
 ```
 
 For CLI options, use the `-h` (or `--help`) argument:
