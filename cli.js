@@ -19,6 +19,9 @@ if (args.length > 2) {
 			`You must supply a source and destination\nnode-lode <src> <dst>\n\nTo load saves don't supply any parameters\nnode-lode\n\nOptions:\n\t-e\tEdit the ignore list\n\t-s\tList the available saves\n\t-v\tView the current version`,
 		);
 	} else if (args[2] == "-e" || args[2] == "--edit") {
+		if (process.platform === "linux") {
+			return open(getIgnorePath(), { app: "vim" });
+		}
 		return open(getIgnorePath());
 	} else if (args[2] == "-s" || args[2] == "--save") {
 		return getLoader();
