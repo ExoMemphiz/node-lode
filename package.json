@@ -1,6 +1,6 @@
 {
 	"name": "node-lode",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"preferGlobal": true,
 	"bin": {
 		"node-lode": "./cli.js"
