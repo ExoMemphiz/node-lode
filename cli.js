@@ -115,9 +115,10 @@ function getLoader() {
 process.stdout.write("\033c");
 
 function getDirFiles(directory, callback) {
-	fs.readdirSync(directory, function(err, files) {
-		files.forEach(function(file) {
-			fs.statSync(directory + "/" + file, function(err, stats) {
+	fs.readdir(directory, function(err, files) {
+		for (let i = 0; i < files.length; i++) {
+			let file = files[i];
+			fs.stat(directory + "/" + file, function(err, stats) {
 				if (stats.isFile()) {
 					callback(directory + "/" + file);
 				}
@@ -125,14 +126,17 @@ function getDirFiles(directory, callback) {
 					getDirFiles(directory + "/" + file, callback);
 				}
 			});
-		});
+		}
 	});
 }
 
-getDirFiles(".", function(file_with_path) {
+getDirFiles(`${args[2]}`, file_with_path => {
+	// console.log(`file_with_path: ${file_with_path}`);
 	const sourcePath = path.resolve(args[2], file_with_path);
 	const destPath = path.resolve(args[3], file_with_path);
-	handleCopy(ignoreList, sourcePath, destPath, false);
+	// console.log(`Copying over ${sourcePath}`);
+	// console.log(`Copying over ${destPath}`);
+	handleCopy(ignoreList, sourcePath, destPath);
 });
 
 console.log(`node-lode is watching for changes...`);
@@ -141,10 +145,10 @@ fs.watch(args[2], { recursive: true }, (type, file) => {
 	const sourcePath = path.resolve(args[2], file);
 	const destPath = path.resolve(args[3], file);
 	if (type !== "rename") {
-		handleCopy(ignoreList, sourcePath, destPath);
+		handleCopy(ignoreList, sourcePath, destPath, true);
 	} else if (fs.existsSync(sourcePath)) {
 		// File has been changed to this
-		handleCopy(ignoreList, sourcePath, destPath);
+		handleCopy(ignoreList, sourcePath, destPath, true);
 	} else if (fs.existsSync(destPath)) {
 		// File has been deleted
 		console.log(`Deleting file: ${destPath}\n`);
@@ -152,10 +156,11 @@ fs.watch(args[2], { recursive: true }, (type, file) => {
 	}
 });
 
-function handleCopy(ignoreList, sourcePath, destPath, debug = true) {
+function handleCopy(ignoreList, sourcePath, destPath, debug = false) {
 	try {
 		for (let i = 0; i < ignoreList.length; i++) {
 			if (sourcePath.includes(ignoreList[i])) {
+				console.log(`Not copying ${sourcePath}`);
 				return;
 			}
 		}
@@ -236,14 +241,7 @@ function removeAll() {
 function loadIgnore() {
 	try {
 		if (!fs.existsSync(getIgnorePath())) {
-			const ignoreList = [".idea", "tmp", "jb_", "_old_", "node_modules"];
-			let str = "";
-			for (let i = 0; i < ignoreList.length; i++) {
-				if (ignoreList[i] !== "") {
-					str += ignoreList[i] + "\n";
-				}
-			}
-			fs.outputFile(getIgnorePath(), str);
+			createNewIgnore();
 		}
 		const contents = fs
 			.readFileSync(getIgnorePath())
@@ -256,8 +254,27 @@ function loadIgnore() {
 			"Your ignore file is corrupt or missing, do you wish to create a new one? ",
 		);
 		if (resultIsYes(result)) {
-			remove();
+			createNewIgnore();
 		}
-		return {};
+		return [];
 	}
+}
+
+function createNewIgnore() {
+	const ignoreList = [
+		".idea",
+		"tmp",
+		"jb_",
+		"_old_",
+		"node_modules",
+		"build",
+		"generated",
+	];
+	let str = "";
+	for (let i = 0; i < ignoreList.length; i++) {
+		if (ignoreList[i] !== "") {
+			str += ignoreList[i] + "\n";
+		}
+	}
+	fs.outputFile(getIgnorePath(), str);
 }
